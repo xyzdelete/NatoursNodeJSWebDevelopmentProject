@@ -1,0 +1,22 @@
+{
+  "name": "natoursnodejswebdevelopmentproject",
+  "version": "1.0.0",
+  "description": "Web development project \"NatoursNodeJS\". It was built by Arturs Anikins during completion of the online course by Jonas Schmedtmann \"Node.js, Express, MongoDB & More: The Complete Bootcamp 2023\". Everything is used for learning purposes only.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xyzdelete/NatoursNodeJSWebDevelopmentProject.git"
+  },
+  "author": "Arturs Anikins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xyzdelete/NatoursNodeJSWebDevelopmentProject/issues"
+  },
+  "homepage": "https://github.com/xyzdelete/NatoursNodeJSWebDevelopmentProject#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
