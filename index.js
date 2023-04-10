@@ -6,17 +6,12 @@ const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
-// 1) MIDDLEWARES
-console.log(process.env.NODE_ENV);
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
-
 app.use((req, res, next) => {
-  console.log("Hello from the middleware 😊");
+  console.log("Hello from the middleware 👋");
   next();
 });
 
@@ -25,7 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 2) ROUTES
+// 3) ROUTES
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 
