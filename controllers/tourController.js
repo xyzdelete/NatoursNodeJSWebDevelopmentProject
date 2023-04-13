@@ -21,7 +21,6 @@ exports.getAllTours = async (req, res) => {
     // SEND RESPONSE
     res.status(200).json({
       status: "success",
-
       results: tours.length,
       data: {
         tours,
@@ -42,7 +41,6 @@ exports.getTour = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-
       data: {
         tour,
       },
@@ -57,6 +55,9 @@ exports.getTour = async (req, res) => {
 
 exports.createTour = async (req, res) => {
   try {
+    // const newTour = new Tour({})
+    // newTour.save()
+
     const newTour = await Tour.create(req.body);
 
     res.status(201).json({
@@ -77,7 +78,7 @@ exports.updateTour = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-      runValidators: true,
+      runValidators: false,
     });
 
     res.status(200).json({
@@ -87,9 +88,9 @@ exports.updateTour = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
+    res.status(404).json({
       status: "fail",
-      message: "Invalid data sent!",
+      message: err,
     });
   }
 };
@@ -97,14 +98,15 @@ exports.updateTour = async (req, res) => {
 exports.deleteTour = async (req, res) => {
   try {
     await Tour.findByIdAndDelete(req.params.id);
+
     res.status(204).json({
       status: "success",
       data: null,
     });
   } catch (err) {
-    res.status(400).json({
+    res.status(404).json({
       status: "fail",
-      message: "Invalid data sent!",
+      message: err,
     });
   }
 };
@@ -118,9 +120,7 @@ exports.getTourStats = async (req, res) => {
       {
         $group: {
           _id: { $toUpper: "$difficulty" },
-          numTours: {
-            $sum: 1,
-          },
+          numTours: { $sum: 1 },
           numRatings: { $sum: "$ratingsQuantity" },
           avgRating: { $avg: "$ratingsAverage" },
           avgPrice: { $avg: "$price" },
@@ -129,17 +129,11 @@ exports.getTourStats = async (req, res) => {
         },
       },
       {
-        $sort: {
-          avgPrice: 1,
-        },
+        $sort: { avgPrice: 1 },
       },
       // {
-      //   $match: {
-      //     _id: {
-      //       $ne: "EASY",
-      //     },
-      //   },
-      // },
+      //   $match: { _id: { $ne: 'EASY' } }
+      // }
     ]);
 
     res.status(200).json({
@@ -159,6 +153,7 @@ exports.getTourStats = async (req, res) => {
 exports.getMonthlyPlan = async (req, res) => {
   try {
     const year = req.params.year * 1; // 2021
+
     const plan = await Tour.aggregate([
       {
         $unwind: "$startDates",
@@ -174,12 +169,8 @@ exports.getMonthlyPlan = async (req, res) => {
       {
         $group: {
           _id: { $month: "$startDates" },
-          numToursStarts: {
-            $sum: 1,
-          },
-          tours: {
-            $push: "$name",
-          },
+          numTourStarts: { $sum: 1 },
+          tours: { $push: "$name" },
         },
       },
       {
@@ -191,9 +182,7 @@ exports.getMonthlyPlan = async (req, res) => {
         },
       },
       {
-        $sort: {
-          numToursStarts: -1,
-        },
+        $sort: { numTourStarts: -1 },
       },
       {
         $limit: 12,
