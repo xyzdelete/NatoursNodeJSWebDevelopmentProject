@@ -4,7 +4,8 @@
   "description": "Web development project \"NatoursNodeJS\". It was built by Arturs Anikins during completion of the online course by Jonas Schmedtmann \"Node.js, Express, MongoDB & More: The Complete Bootcamp 2023\". Everything is used for learning purposes only.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "debug": "ndb server.js"
   },
   "repository": {
     "type": "git",
