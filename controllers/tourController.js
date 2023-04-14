@@ -1,7 +1,7 @@
-const Tour = require("../models/tourModel");
-const APIFeatures = require("../utils/apiFeatures");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
+const Tour = require("./../models/tourModel");
+const APIFeatures = require("./../utils/apiFeatures");
+const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = "5";
@@ -11,7 +11,6 @@ exports.aliasTopTours = (req, res, next) => {
 };
 
 exports.getAllTours = catchAsync(async (req, res, next) => {
-  // EXECUTE QUERY
   const features = new APIFeatures(Tour.find(), req.query)
     .filter()
     .sort()
@@ -59,7 +58,7 @@ exports.createTour = catchAsync(async (req, res, next) => {
 exports.updateTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: false,
+    runValidators: true,
   });
 
   if (!tour) {
